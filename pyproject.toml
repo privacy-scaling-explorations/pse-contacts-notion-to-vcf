@@ -11,10 +11,23 @@ vobject = "^0.9.6.1"
 pandas = "^2.2.0"
 jupyterlab = "^4.0.12"
 pyarrow = "^15.0.0"
+black = "^24.1.1"
 
 
 [tool.poetry.group.dev.dependencies]
 poethepoet = "^0.24.4"
+
+[tool.poe.tasks.format]
+help = "Format code using black"
+cmd = "black ."
+
+[tool.poe.tasks.dev]
+help = "Start jupyter lab"
+cmd = "jupyter lab"
+
+[tool.poe.tasks.exec]
+help = "Execute csv to vcf conversion script"
+cmd = "python -m main"
 
 [build-system]
 requires = ["poetry-core"]
