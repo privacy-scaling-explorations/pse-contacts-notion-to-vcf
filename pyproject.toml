@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "pse-vcf"
+version = "0.1.0"
+description = ""
+authors = ["sripwoud <me@sripwoud.xyz>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+vobject = "^0.9.6.1"
+pandas = "^2.2.0"
+jupyterlab = "^4.0.12"
+pyarrow = "^15.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+poethepoet = "^0.24.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
