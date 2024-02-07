@@ -13,3 +13,10 @@ to csv.
    ```commandline
    poe exec [-i /path/to/notion.csv] [-o /path/to/output.vcf]
    ```
+   
+## Disclaimer
+PSE members have access to a [notion contacts table](https://www.notion.so/pse-team/e86dfd0a581a43419c7052534b272502?v=6dfe68e736734b38a2e28cd139cada62) that contains personal information shared by the members themselves on a voluntary basis.   
+This script just converts the information available there to a vcf file that can be used to import the contacts into 3rd party applications.  
+It is not bug-free and will break as soon as the structure of the notion table changes.  
+The output vcf file should be used responsibly: just like the information on notion, it should not be shared with non-members.
+
