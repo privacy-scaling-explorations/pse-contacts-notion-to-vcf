@@ -11,3 +11,4 @@ PATTERNS = {
 
 DEFAULT_NOTION_CONTACTS_CSV_FILE_PATH = "data/pse-notion-contacts-dir-export-240130.csv"
 DEFAULT_VCF_FILE_PATH = "data/PSE.vcf"
+DEFAULT_VCF_VERSION = "4.0"

@@ -1,6 +1,8 @@
 import pandas as pd
 import vobject
 
+from config import DEFAULT_VCF_VERSION
+
 
 def create_vcards(contacts_df):
     vcards = []
@@ -10,7 +12,7 @@ def create_vcards(contacts_df):
         # create a vCard
         vcard = vobject.vCard()
 
-        vcard.add("version").value = "4.0"
+        vcard.add("version").value = DEFAULT_VCF_VERSION
         vcard.add("org").value = row["org"]
 
         for key in ["fn", "nickname", "tz", "email"]:
