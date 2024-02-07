@@ -14,7 +14,7 @@ patterns = {
         "discord": r"(?:discord:)\s*(@?\w+)(?:#\d+)?",
         "github": r"(?:github:)\s*(?:https?://github.com/)?(@?\w+)",
         "email": r"(?:email:)\s*([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})",
-        "telegram": r"(?:telegram:|tg:)\s*(@?\w+)",
+        "telegram": r"(?:telegram:|tg:)\s*(?:https?://t.me/)?(@?\w+)",
     },
     "Availability": {"tz": r"((UTC|GMT)\s*([+-]?\d{1,2})?)"},
     # Add more patterns as needed
@@ -24,13 +24,20 @@ patterns = {
 def clean_projects_teams_col(input_str):
     if isinstance(input_str, str):
         # Use regular expression to remove content within brackets
-        cleaned_str = re.sub(r"\(.*?\)", "", input_str)
+        cleaned_str = re.sub(
+            r"\(.*?\)",
+            "",
+            input_str.replace("  ", " ")
+            .replace(" (", "(")
+            .replace(" / ", "/")
+            .replace(" - ", "-"),
+        )
 
         # Trim the resulting string
         cleaned_str = cleaned_str.strip()
-        return f"PSE ({cleaned_str})"
+        return ['PSE', cleaned_str]
     else:
-        return "PSE"
+        return ["PSE"]
 
 
 def clean_name_col(input_str):
@@ -54,7 +61,7 @@ def parse_csv():
 
     df["nickname"] = df[
         ["Notion Handle", "discord", "telegram", "github", "ENS Address"]
-    ].apply(lambda x: ",".join(x.dropna()), axis=1)
+    ].apply(lambda x: ", ".join(set(x.dropna())), axis=1)
 
     df.rename(columns={"Name": "fn"}, inplace=True)
     df["fn"] = df["fn"].apply(clean_name_col)
@@ -68,14 +75,16 @@ def create_vcards(contacts_df):
     vcards = []
     # create a vCard for each row in the dataframe
     for index, row in contacts_df.iterrows():
+        print(row["org"])
         # create a vCard
         vcard = vobject.vCard()
 
-        for key in ["fn", "nickname", "org", "tz", "email"]:
+        for key in ["fn", "nickname", "tz", "email"]:
             # only if value is not null or not na or not empty string
             if row[key] and not pd.isna(row[key]) and row[key].strip():
                 vcard.add(key).value = row[key]
 
+        vcard.add('org').value = row["org"]
         for key in ["discord", "telegram", "github"]:
             if row[key] and not pd.isna(row[key]) and row[key].strip():
                 vcard.add(f"x-{key}").value = row[key]
